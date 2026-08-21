@@ -46,7 +46,7 @@
           <form v-else @submit.prevent="handleRegister" class="mt-8 space-y-4">
             <!-- Email Field -->
             <div>
-              <label for="email" class="block text-xs font-medium text-slate-700 mb-1.5">
+              <label for="email" class="block text-xs font-semibold text-slate-700 mb-1.5">
                 {{ t('auth.emailLabel') }}
               </label>
               <div class="relative">
@@ -59,10 +59,8 @@
                   autocomplete="email"
                   :disabled="registrationActionDisabled"
                   :placeholder="t('auth.emailPlaceholder')"
-                  :class="[
-                    'w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#4374f6] focus:ring-4 focus:ring-[#4374f6]/10',
-                    errors.email ? 'input-error border-red-500 focus:border-red-500 focus:ring-red-500/10' : 'border-slate-200'
-                  ]"
+                  class="w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#4374f6] focus:ring-4 focus:ring-[#4374f6]/10"
+                  :class="errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500/10' : 'border-slate-200'"
                 />
               </div>
               <p v-if="errors.email" class="mt-1.5 text-xs text-red-500">{{ errors.email }}</p>
@@ -70,7 +68,7 @@
 
             <!-- Password Field -->
             <div>
-              <label for="password" class="block text-xs font-medium text-slate-700 mb-1.5">
+              <label for="password" class="block text-xs font-semibold text-slate-700 mb-1.5">
                 {{ t('auth.passwordLabel') }}
               </label>
               <div class="relative">
@@ -100,7 +98,7 @@
 
             <!-- Invitation Code (Required when enabled) -->
             <div v-if="invitationCodeEnabled">
-              <label for="invitation_code" class="block text-xs font-medium text-slate-700 mb-1.5">
+              <label for="invitation_code" class="block text-xs font-semibold text-slate-700 mb-1.5">
                 {{ t('auth.invitationCodeLabel') }}
               </label>
               <div class="relative">
@@ -142,7 +140,7 @@
 
             <!-- Affiliate Invitation Code (Optional) -->
             <div v-else-if="affiliateEnabled" data-testid="affiliate-invitation-field">
-              <label for="affiliate_code" class="block text-xs font-medium text-slate-700 mb-1.5">
+              <label for="affiliate_code" class="block text-xs font-semibold text-slate-700 mb-1.5">
                 {{ t('auth.invitationCodeLabel') }} <span class="text-slate-400 font-normal">({{ t('common.optional') }})</span>
               </label>
               <input
@@ -157,7 +155,7 @@
 
             <!-- Promo Code (Optional) -->
             <div v-if="promoCodeEnabled">
-              <label for="promo_code" class="block text-xs font-medium text-slate-700 mb-1.5">
+              <label for="promo_code" class="block text-xs font-semibold text-slate-700 mb-1.5">
                 {{ t('auth.promoCodeLabel') }} <span class="text-slate-400 font-normal">({{ t('common.optional') }})</span>
               </label>
               <div class="relative">

@@ -3,26 +3,26 @@
     <div class="space-y-6">
       <!-- Title -->
       <div>
-        <h2 class="text-2xl font-bold tracking-tight text-white">
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
           {{ t('auth.resetPasswordTitle') }}
         </h2>
-        <p class="mt-2 text-sm text-slate-400">
+        <p class="mt-2 text-sm text-slate-500">
           {{ t('auth.resetPasswordHint') }}
         </p>
       </div>
 
       <!-- Invalid Link State -->
       <div v-if="isInvalidLink" class="space-y-6">
-        <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-5 backdrop-blur-sm">
+        <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
           <div class="flex flex-col items-center gap-3 text-center">
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/20 text-amber-400">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-amber-600">
               <Icon name="exclamationCircle" size="lg" />
             </div>
             <div>
-              <h3 class="text-base font-semibold text-amber-300">
+              <h3 class="text-base font-bold text-slate-900">
                 {{ t('auth.invalidResetLink') }}
               </h3>
-              <p class="mt-1.5 text-xs sm:text-sm text-amber-400/80 leading-relaxed">
+              <p class="mt-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
                 {{ t('auth.invalidResetLinkHint') }}
               </p>
             </div>
@@ -32,7 +32,7 @@
         <div class="text-center">
           <router-link
             to="/forgot-password"
-            class="inline-flex items-center gap-2 text-sm font-medium text-primary-400 transition-colors hover:text-primary-300 hover:underline"
+            class="inline-flex items-center gap-2 text-xs font-semibold text-[#3b82f6] hover:text-[#2563eb] transition"
           >
             {{ t('auth.requestNewResetLink') }}
           </router-link>
@@ -41,16 +41,16 @@
 
       <!-- Success State -->
       <div v-else-if="isSuccess" class="space-y-6">
-        <div class="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-5 backdrop-blur-sm">
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
           <div class="flex flex-col items-center gap-3 text-center">
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
               <Icon name="checkCircle" size="lg" />
             </div>
             <div>
-              <h3 class="text-base font-semibold text-emerald-300">
+              <h3 class="text-base font-bold text-slate-900">
                 {{ t('auth.passwordResetSuccess') }}
               </h3>
-              <p class="mt-1.5 text-xs sm:text-sm text-emerald-400/80 leading-relaxed">
+              <p class="mt-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
                 {{ t('auth.passwordResetSuccessHint') }}
               </p>
             </div>
@@ -60,9 +60,9 @@
         <div class="text-center">
           <router-link
             to="/login"
-            class="relative flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 px-4 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all hover:scale-[1.01] hover:shadow-primary-500/40"
+            class="w-full flex items-center justify-center rounded-xl bg-gradient-to-r from-[#4374f6] to-[#3b82f6] py-3.5 px-4 text-sm font-semibold text-white shadow-md shadow-blue-500/20 transition duration-150 hover:shadow-lg hover:shadow-blue-500/30 hover:brightness-105 active:scale-[0.99] cursor-pointer"
           >
-            <Icon name="login" size="md" />
+            <Icon name="login" size="md" class="mr-2" />
             <span>{{ t('auth.signIn') }}</span>
           </router-link>
         </div>
@@ -71,34 +71,26 @@
       <!-- Form State -->
       <form v-else @submit.prevent="handleSubmit" class="space-y-4">
         <!-- Email (readonly) -->
-        <div class="space-y-1.5">
-          <label for="email" class="text-xs font-semibold uppercase tracking-wider text-slate-300">
+        <div>
+          <label for="email" class="block text-xs font-semibold text-slate-700 mb-1.5">
             {{ t('auth.emailLabel') }}
           </label>
-          <div class="relative">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-              <Icon name="mail" size="md" class="text-slate-500" />
-            </div>
-            <input
-              id="email"
-              :value="email"
-              type="email"
-              readonly
-              disabled
-              class="h-11 w-full rounded-xl border border-white/5 bg-slate-950/40 pl-11 pr-4 text-sm text-slate-400 cursor-not-allowed opacity-80 backdrop-blur-sm"
-            />
-          </div>
+          <input
+            id="email"
+            :value="email"
+            type="email"
+            readonly
+            disabled
+            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-500 cursor-not-allowed"
+          />
         </div>
 
         <!-- New Password Input -->
-        <div class="space-y-1.5">
-          <label for="password" class="text-xs font-semibold uppercase tracking-wider text-slate-300">
+        <div>
+          <label for="password" class="block text-xs font-semibold text-slate-700 mb-1.5">
             {{ t('auth.newPassword') }}
           </label>
           <div class="relative">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-              <Icon name="lock" size="md" class="text-slate-400" />
-            </div>
             <input
               id="password"
               v-model="formData.password"
@@ -106,31 +98,28 @@
               required
               autocomplete="new-password"
               :disabled="isLoading"
-              class="h-11 w-full rounded-xl border border-white/10 bg-slate-950/60 pl-11 pr-11 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all focus:border-primary-500/50 focus:bg-slate-950/90 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-50"
-              :class="{ 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500/20': errors.password }"
+              class="w-full rounded-xl border bg-white px-4 py-3 pr-11 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#4374f6] focus:ring-4 focus:ring-[#4374f6]/10"
+              :class="errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500/10' : 'border-slate-200'"
               :placeholder="t('auth.newPasswordPlaceholder')"
             />
             <button
               type="button"
               @click="showPassword = !showPassword"
-              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 transition-colors hover:text-slate-200"
+              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600 transition cursor-pointer"
             >
               <Icon v-if="showPassword" name="eyeOff" size="md" />
               <Icon v-else name="eye" size="md" />
             </button>
           </div>
-          <p v-if="errors.password" class="text-xs text-rose-400">{{ errors.password }}</p>
+          <p v-if="errors.password" class="mt-1.5 text-xs text-red-500">{{ errors.password }}</p>
         </div>
 
         <!-- Confirm Password Input -->
-        <div class="space-y-1.5">
-          <label for="confirmPassword" class="text-xs font-semibold uppercase tracking-wider text-slate-300">
+        <div>
+          <label for="confirmPassword" class="block text-xs font-semibold text-slate-700 mb-1.5">
             {{ t('auth.confirmPassword') }}
           </label>
           <div class="relative">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-              <Icon name="lock" size="md" class="text-slate-400" />
-            </div>
             <input
               id="confirmPassword"
               v-model="formData.confirmPassword"
@@ -138,27 +127,27 @@
               required
               autocomplete="new-password"
               :disabled="isLoading"
-              class="h-11 w-full rounded-xl border border-white/10 bg-slate-950/60 pl-11 pr-11 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all focus:border-primary-500/50 focus:bg-slate-950/90 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-50"
-              :class="{ 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500/20': errors.confirmPassword }"
+              class="w-full rounded-xl border bg-white px-4 py-3 pr-11 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#4374f6] focus:ring-4 focus:ring-[#4374f6]/10"
+              :class="errors.confirmPassword ? 'border-red-500 focus:border-red-500 focus:ring-red-500/10' : 'border-slate-200'"
               :placeholder="t('auth.confirmPasswordPlaceholder')"
             />
             <button
               type="button"
               @click="showConfirmPassword = !showConfirmPassword"
-              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 transition-colors hover:text-slate-200"
+              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600 transition cursor-pointer"
             >
               <Icon v-if="showConfirmPassword" name="eyeOff" size="md" />
               <Icon v-else name="eye" size="md" />
             </button>
           </div>
-          <p v-if="errors.confirmPassword" class="text-xs text-rose-400">{{ errors.confirmPassword }}</p>
+          <p v-if="errors.confirmPassword" class="mt-1.5 text-xs text-red-500">{{ errors.confirmPassword }}</p>
         </div>
 
         <!-- Submit Button -->
         <button
           type="submit"
           :disabled="isLoading"
-          class="relative mt-2 flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 px-4 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all hover:scale-[1.01] hover:shadow-primary-500/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+          class="w-full mt-2 flex items-center justify-center rounded-xl bg-gradient-to-r from-[#4374f6] to-[#3b82f6] py-3.5 px-4 text-sm font-semibold text-white shadow-md shadow-blue-500/20 transition duration-150 hover:shadow-lg hover:shadow-blue-500/30 hover:brightness-105 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <svg
             v-if="isLoading"
@@ -169,9 +158,19 @@
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <Icon v-else name="checkCircle" size="md" />
-          <span>{{ isLoading ? t('auth.resettingPassword') : t('auth.resetPassword') }}</span>
+          <span v-else>{{ isLoading ? t('auth.resettingPassword') : t('auth.resetPassword') }}</span>
         </button>
+
+        <!-- Back to Login Link -->
+        <div class="pt-2 text-center text-xs text-slate-500">
+          <router-link
+            to="/login"
+            class="font-semibold text-[#3b82f6] hover:text-[#2563eb] transition inline-flex items-center gap-1"
+          >
+            <Icon name="arrowLeft" size="xs" />
+            <span>{{ t('auth.backToLogin') }}</span>
+          </router-link>
+        </div>
       </form>
     </div>
 

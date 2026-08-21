@@ -33,7 +33,7 @@
             <form @submit.prevent="handleLogin" class="mt-8 space-y-5">
             <!-- Email Field -->
             <div>
-              <label for="email" class="block text-xs font-medium text-slate-700 mb-2">
+              <label for="email" class="block text-xs font-semibold text-slate-700 mb-1.5">
                 {{ t('auth.emailLabel') }}
               </label>
               <div class="relative">
@@ -55,14 +55,14 @@
 
             <!-- Password Field -->
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <label for="password" class="text-xs font-medium text-slate-700">
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="password" class="text-xs font-semibold text-slate-700">
                   {{ t('auth.passwordLabel') }}
                 </label>
                 <router-link
                   v-if="passwordResetEnabled && !backendModeEnabled"
                   to="/forgot-password"
-                  class="text-xs font-medium text-[#3b82f6] hover:text-[#2563eb] transition"
+                  class="text-xs font-semibold text-[#3b82f6] hover:text-[#2563eb] transition"
                 >
                   {{ t('auth.forgotPassword') }}
                 </router-link>
@@ -222,7 +222,7 @@
             {{ t('auth.dontHaveAccount') }}
             <router-link
               to="/register"
-              class="font-medium text-[#3b82f6] hover:text-[#2563eb] transition ml-1"
+              class="font-semibold text-[#3b82f6] hover:text-[#2563eb] transition ml-1"
             >
               {{ t('auth.signUp') }}
             </router-link>

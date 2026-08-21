@@ -3,27 +3,27 @@
     <div class="space-y-6">
       <!-- Title -->
       <div>
-        <h2 class="text-2xl font-bold tracking-tight text-white">
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
           {{ t('auth.verifyYourEmail') }}
         </h2>
-        <p class="mt-2 text-sm text-slate-400">
+        <p class="mt-2 text-sm text-slate-500">
           {{ t('auth.sendCodeDesc') }}
-          <span class="font-medium text-slate-200">{{ email }}</span>
+          <span class="font-bold text-slate-800">{{ email }}</span>
         </p>
       </div>
 
       <!-- No Data Warning -->
       <div
         v-if="!hasRegisterData"
-        class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-4 backdrop-blur-sm"
+        class="rounded-xl border border-amber-200 bg-amber-50 p-4"
       >
         <div class="flex items-start gap-3">
           <div class="flex-shrink-0">
-            <Icon name="exclamationCircle" size="md" class="text-amber-400" />
+            <Icon name="exclamationCircle" size="md" class="text-amber-500" />
           </div>
-          <div class="text-sm text-amber-300">
-            <p class="font-medium">{{ t('auth.sessionExpired') }}</p>
-            <p class="mt-1 text-amber-400/80">{{ t('auth.sessionExpiredDesc') }}</p>
+          <div class="text-xs text-amber-800">
+            <p class="font-bold">{{ t('auth.sessionExpired') }}</p>
+            <p class="mt-0.5 text-amber-700 leading-relaxed">{{ t('auth.sessionExpiredDesc') }}</p>
           </div>
         </div>
       </div>
@@ -31,8 +31,8 @@
       <!-- Verification Form -->
       <form v-else @submit.prevent="handleVerify" class="space-y-4">
         <!-- Verification Code Input -->
-        <div class="space-y-1.5">
-          <label for="code" class="text-xs font-semibold uppercase tracking-wider text-slate-300 text-center block">
+        <div>
+          <label for="code" class="block text-xs font-semibold text-slate-700 mb-1.5 text-center">
             {{ t('auth.verificationCode') }}
           </label>
           <input
@@ -44,25 +44,21 @@
             inputmode="numeric"
             maxlength="6"
             :disabled="isLoading"
-            class="h-14 w-full rounded-xl border border-white/10 bg-slate-950/60 text-center font-mono text-2xl tracking-[0.5em] text-white placeholder-slate-600 backdrop-blur-sm transition-all focus:border-primary-500/50 focus:bg-slate-950/90 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-50"
-            :class="{ 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500/20': errors.code }"
+            class="h-14 w-full rounded-xl border border-slate-200 bg-white text-center font-mono text-2xl tracking-[0.5em] text-slate-900 placeholder-slate-300 outline-none transition focus:border-[#4374f6] focus:ring-4 focus:ring-[#4374f6]/10 disabled:cursor-not-allowed disabled:opacity-50"
+            :class="{ 'border-red-500 focus:border-red-500 focus:ring-red-500/10': errors.code }"
             placeholder="000000"
           />
-          <p class="text-center text-xs text-slate-400">{{ t('auth.verificationCodeHint') }}</p>
+          <p class="mt-1.5 text-center text-xs text-slate-400">{{ t('auth.verificationCodeHint') }}</p>
         </div>
 
         <!-- Code Status -->
         <div
           v-if="codeSent"
-          class="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3.5 backdrop-blur-sm"
+          class="rounded-xl border border-emerald-200 bg-emerald-50 p-3"
         >
-          <div class="flex items-start gap-3">
-            <div class="flex-shrink-0">
-              <Icon name="checkCircle" size="md" class="text-emerald-400" />
-            </div>
-            <p class="text-xs sm:text-sm text-emerald-300">
-              {{ t('auth.codeSentSuccess') }}
-            </p>
+          <div class="flex items-center gap-2 text-xs font-semibold text-emerald-700">
+            <Icon name="checkCircle" size="sm" class="text-emerald-600 shrink-0" />
+            <span>{{ t('auth.codeSentSuccess') }}</span>
           </div>
         </div>
 
@@ -109,7 +105,7 @@
         <button
           type="submit"
           :disabled="isLoading || !verifyCode || (pendingOAuthCreateTurnstileRequired && !createAccountTurnstileToken)"
-          class="relative mt-2 flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 px-4 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all hover:scale-[1.01] hover:shadow-primary-500/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+          class="w-full mt-2 flex items-center justify-center rounded-xl bg-gradient-to-r from-[#4374f6] to-[#3b82f6] py-3.5 px-4 text-sm font-semibold text-white shadow-md shadow-blue-500/20 transition duration-150 hover:shadow-lg hover:shadow-blue-500/30 hover:brightness-105 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <svg
             v-if="isLoading"
@@ -131,8 +127,7 @@
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
           </svg>
-          <Icon v-else name="checkCircle" size="md" />
-          <span>{{ isLoading ? t('auth.verifying') : t('auth.verifyAndCreate') }}</span>
+          <span v-else>{{ t('auth.verifyAndCreate') }}</span>
         </button>
 
         <!-- Resend Code -->
@@ -141,7 +136,7 @@
             v-if="countdown > 0"
             type="button"
             disabled
-            class="cursor-not-allowed text-xs text-slate-500"
+            class="cursor-not-allowed text-xs text-slate-400 font-medium"
           >
             {{ t('auth.resendCountdown', { countdown }) }}
           </button>
@@ -152,13 +147,25 @@
             :disabled="
               isSendingCode || (turnstileEnabled && showResendTurnstile && !resendTurnstileToken)
             "
-            class="text-xs font-medium text-primary-400 transition-colors hover:text-primary-300 disabled:cursor-not-allowed disabled:opacity-50"
+            class="text-xs font-semibold text-[#3b82f6] hover:text-[#2563eb] transition disabled:cursor-not-allowed disabled:opacity-50"
           >
             <span v-if="isSendingCode">{{ t('auth.sendingCode') }}</span>
             <span v-else-if="captchaEnabled && !showResendTurnstile">
               {{ t('auth.clickToResend') }}
             </span>
             <span v-else>{{ t('auth.resendCode') }}</span>
+          </button>
+        </div>
+
+        <!-- Back to Registration Link -->
+        <div class="pt-2 text-center text-xs text-slate-500">
+          <button
+            type="button"
+            @click="handleBack"
+            class="font-semibold text-slate-500 hover:text-slate-700 transition inline-flex items-center gap-1 cursor-pointer"
+          >
+            <Icon name="arrowLeft" size="xs" />
+            <span>{{ t('auth.backToRegistration') }}</span>
           </button>
         </div>
       </form>
