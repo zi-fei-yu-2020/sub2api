@@ -207,7 +207,7 @@
               <div class="h-3 w-3 rounded-full bg-rose-500/80"></div>
               <div class="h-3 w-3 rounded-full bg-amber-500/80"></div>
               <div class="h-3 w-3 rounded-full bg-emerald-500/80"></div>
-              <span class="ml-2 text-xs font-mono text-slate-400">curl -X POST https://api.sub2api.com/v1/chat/completions</span>
+              <span class="ml-2 text-xs font-mono text-slate-400">curl -X POST {{ displayApiEndpoint }}/v1/chat/completions</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono font-medium text-emerald-400 border border-emerald-500/20">
@@ -218,7 +218,7 @@
           </div>
           <div class="p-4 sm:p-6 font-mono text-xs sm:text-sm text-slate-300 leading-relaxed overflow-x-auto">
             <div class="text-slate-500">// 1. 标准 OpenAI / Claude 协议 100% 无缝兼容</div>
-            <div class="mt-2"><span class="text-indigo-400">curl</span> https://api.yourdomain.com/v1/chat/completions \</div>
+            <div class="mt-2"><span class="text-indigo-400">curl</span> {{ displayApiEndpoint }}/v1/chat/completions \</div>
             <div class="pl-4"><span class="text-blue-400">-H</span> <span class="text-emerald-300">"Authorization: Bearer sk-sub2api-8f92b7c4d..."</span> \</div>
             <div class="pl-4"><span class="text-blue-400">-H</span> <span class="text-emerald-300">"Content-Type: application/json"</span> \</div>
             <div class="pl-4"><span class="text-blue-400">-d</span> '{</div>
@@ -348,6 +348,18 @@ const siteLogo = computed(() => appStore.siteLogo)
 const docUrl = computed(() => appStore.docUrl)
 const homeContent = computed(() => appStore.cachedPublicSettings?.home_content || '')
 const compactHomeEnabled = computed(() => appStore.cachedPublicSettings?.compact_home_enabled || false)
+
+// Display API endpoint for demo terminal
+const displayApiEndpoint = computed(() => {
+  const configured = appStore.apiBaseUrl?.trim()
+  if (configured) {
+    return configured.replace(/\/+$/, '')
+  }
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    return window.location.origin.replace(/\/+$/, '')
+  }
+  return 'https://api.yourdomain.com'
+})
 
 // Check if custom home content exists
 const hasHomeContent = computed(() => {
