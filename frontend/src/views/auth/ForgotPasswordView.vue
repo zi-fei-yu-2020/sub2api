@@ -2,27 +2,27 @@
   <AuthLayout>
     <div class="space-y-6">
       <!-- Title -->
-      <div class="text-center">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-white">
           {{ t('auth.forgotPasswordTitle') }}
         </h2>
-        <p class="mt-2 text-sm text-gray-500 dark:text-dark-400">
+        <p class="mt-2 text-sm text-slate-400">
           {{ t('auth.forgotPasswordHint') }}
         </p>
       </div>
 
       <!-- Success State -->
       <div v-if="isSubmitted" class="space-y-6">
-        <div class="rounded-xl border border-green-200 bg-green-50 p-6 dark:border-green-800/50 dark:bg-green-900/20">
-          <div class="flex flex-col items-center gap-4 text-center">
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-800/50">
-              <Icon name="checkCircle" size="lg" class="text-green-600 dark:text-green-400" />
+        <div class="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-5 backdrop-blur-sm">
+          <div class="flex flex-col items-center gap-3 text-center">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+              <Icon name="checkCircle" size="lg" />
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-green-800 dark:text-green-200">
+              <h3 class="text-base font-semibold text-emerald-300">
                 {{ t('auth.resetEmailSent') }}
               </h3>
-              <p class="mt-2 text-sm text-green-700 dark:text-green-300">
+              <p class="mt-1.5 text-xs sm:text-sm text-emerald-400/80 leading-relaxed">
                 {{ t('auth.resetEmailSentHint') }}
               </p>
             </div>
@@ -32,7 +32,7 @@
         <div class="text-center">
           <router-link
             to="/login"
-            class="inline-flex items-center gap-2 font-medium text-primary-600 transition-colors hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300"
+            class="inline-flex items-center gap-2 text-sm font-medium text-primary-400 transition-colors hover:text-primary-300"
           >
             <Icon name="arrowLeft" size="sm" />
             {{ t('auth.backToLogin') }}
@@ -41,15 +41,15 @@
       </div>
 
       <!-- Form State -->
-      <form v-else @submit.prevent="handleSubmit" class="space-y-5">
+      <form v-else @submit.prevent="handleSubmit" class="space-y-4">
         <!-- Email Input -->
-        <div>
-          <label for="email" class="input-label">
+        <div class="space-y-1.5">
+          <label for="email" class="text-xs font-semibold uppercase tracking-wider text-slate-300">
             {{ t('auth.emailLabel') }}
           </label>
           <div class="relative">
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-              <Icon name="mail" size="md" class="text-gray-400 dark:text-dark-500" />
+              <Icon name="mail" size="md" class="text-slate-400" />
             </div>
             <input
               id="email"
@@ -59,15 +59,16 @@
               autofocus
               autocomplete="email"
               :disabled="isLoading"
-              class="input pl-11"
-              :class="{ 'input-error': errors.email }"
+              class="h-11 w-full rounded-xl border border-white/10 bg-slate-950/60 pl-11 pr-4 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all focus:border-primary-500/50 focus:bg-slate-950/90 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+              :class="{ 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500/20': errors.email }"
               :placeholder="t('auth.emailPlaceholder')"
             />
           </div>
+          <p v-if="errors.email" class="text-xs text-rose-400">{{ errors.email }}</p>
         </div>
 
-        <!-- Turnstile Widget -->
-        <div v-if="captchaEnabled">
+        <!-- Captcha Widget -->
+        <div v-if="captchaEnabled" class="pt-1">
           <TurnstileWidget
             ref="turnstileRef"
             :turnstile-enabled="turnstileEnabled"
@@ -89,41 +90,30 @@
         <button
           type="submit"
           :disabled="isLoading || (turnstileEnabled && !turnstileToken)"
-          class="btn btn-primary w-full"
+          class="relative mt-2 flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 px-4 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all hover:scale-[1.01] hover:shadow-primary-500/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
         >
           <svg
             v-if="isLoading"
-            class="-ml-1 mr-2 h-4 w-4 animate-spin text-white"
+            class="h-4 w-4 animate-spin text-white"
             fill="none"
             viewBox="0 0 24 24"
           >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <Icon v-else name="mail" size="md" class="mr-2" />
-          {{ isLoading ? t('auth.sendingResetLink') : t('auth.sendResetLink') }}
+          <Icon v-else name="mail" size="md" />
+          <span>{{ isLoading ? t('auth.sendingResetLink') : t('auth.sendResetLink') }}</span>
         </button>
       </form>
     </div>
 
     <!-- Footer -->
     <template #footer>
-      <p class="text-gray-500 dark:text-dark-400">
+      <p class="text-slate-400">
         {{ t('auth.rememberedPassword') }}
         <router-link
           to="/login"
-          class="font-medium text-primary-600 transition-colors hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300"
+          class="font-medium text-primary-400 transition-colors hover:text-primary-300 hover:underline"
         >
           {{ t('auth.signIn') }}
         </router-link>
@@ -140,50 +130,37 @@ import Icon from '@/components/icons/Icon.vue'
 import TurnstileWidget from '@/components/CaptchaChallenge.vue'
 import { useAppStore } from '@/stores'
 import { getPublicSettings, forgotPassword } from '@/api/auth'
+import { useCaptchaChallenge } from '@/composables/useCaptchaChallenge'
 
 const { t } = useI18n()
-
-// ==================== Stores ====================
-
 const appStore = useAppStore()
-
-// ==================== State ====================
 
 const isLoading = ref<boolean>(false)
 const isSubmitted = ref<boolean>(false)
 const errorMessage = ref<string>('')
 
-// Public settings
-const turnstileEnabled = ref<boolean>(false)
-const turnstileSiteKey = ref<string>('')
-const tencentCaptchaEnabled = ref<boolean>(false)
-const tencentCaptchaAppId = ref<string>('')
-const tencentCaptchaRegion = ref<string>('cn')
-const aliyunCaptchaEnabled = ref<boolean>(false)
-const aliyunCaptchaSceneId = ref<string>('')
-const aliyunCaptchaPrefix = ref<string>('')
-const aliyunCaptchaRegion = ref<string>('cn')
-
-// Turnstile
-const turnstileRef = ref<InstanceType<typeof TurnstileWidget> | null>(null)
-const turnstileToken = ref<string>('')
-const tencentCaptchaRandstr = ref<string>('')
-const aliyunCaptchaReady = computed(
-  () =>
-    aliyunCaptchaEnabled.value &&
-    Boolean(aliyunCaptchaSceneId.value) &&
-    Boolean(aliyunCaptchaPrefix.value)
-)
-// 动作触发式验证码（腾讯/阿里云）：提交时弹窗验证
-const actionCaptchaEnabled = computed(
-  () =>
-    (tencentCaptchaEnabled.value && Boolean(tencentCaptchaAppId.value)) ||
-    aliyunCaptchaReady.value
-)
-const captchaEnabled = computed(
-  () =>
-    (turnstileEnabled.value && Boolean(turnstileSiteKey.value)) || actionCaptchaEnabled.value
-)
+const {
+  turnstileEnabled,
+  turnstileSiteKey,
+  tencentCaptchaEnabled,
+  tencentCaptchaAppId,
+  tencentCaptchaRegion,
+  aliyunCaptchaEnabled,
+  aliyunCaptchaSceneId,
+  aliyunCaptchaPrefix,
+  aliyunCaptchaRegion,
+  turnstileToken,
+  captchaError,
+  turnstileRef,
+  captchaEnabled,
+  onTurnstileVerify,
+  onTurnstileExpire,
+  onTurnstileError,
+  resetCaptchaProof,
+  acquireActionProof,
+  applyCaptchaSettings,
+  buildCaptchaProofPayload
+} = useCaptchaChallenge()
 
 const formData = reactive({
   email: ''
@@ -194,6 +171,10 @@ const errors = reactive({
   turnstile: ''
 })
 
+watch(captchaError, (val) => {
+  errors.turnstile = val
+})
+
 const validationToastMessage = computed(() => errors.email || errors.turnstile || '')
 
 watch(validationToastMessage, (value, previousValue) => {
@@ -202,64 +183,14 @@ watch(validationToastMessage, (value, previousValue) => {
   }
 })
 
-// ==================== Lifecycle ====================
-
 onMounted(async () => {
   try {
     const settings = await getPublicSettings()
-    turnstileEnabled.value = settings.turnstile_enabled
-    turnstileSiteKey.value = settings.turnstile_site_key || ''
-    tencentCaptchaEnabled.value = settings.tencent_captcha_enabled === true
-    tencentCaptchaAppId.value = settings.tencent_captcha_app_id || ''
-    tencentCaptchaRegion.value = settings.tencent_captcha_region || 'cn'
-    aliyunCaptchaEnabled.value = settings.aliyun_captcha_enabled === true
-    aliyunCaptchaSceneId.value = settings.aliyun_captcha_scene_id || ''
-    aliyunCaptchaPrefix.value = settings.aliyun_captcha_prefix || ''
-    aliyunCaptchaRegion.value = settings.aliyun_captcha_region || 'cn'
+    applyCaptchaSettings(settings)
   } catch (error) {
     console.error('Failed to load public settings:', error)
   }
 })
-
-// ==================== Turnstile Handlers ====================
-
-function onTurnstileVerify(token: string, randstr = ''): void {
-  turnstileToken.value = token
-  tencentCaptchaRandstr.value = randstr
-  errors.turnstile = ''
-}
-
-function onTurnstileExpire(): void {
-  turnstileToken.value = ''
-  tencentCaptchaRandstr.value = ''
-  errors.turnstile = t('auth.turnstileExpired')
-}
-
-function onTurnstileError(): void {
-  turnstileToken.value = ''
-  tencentCaptchaRandstr.value = ''
-  errors.turnstile = t('auth.turnstileFailed')
-}
-
-function resetCaptchaProof(): void {
-  turnstileRef.value?.reset()
-  turnstileToken.value = ''
-  tencentCaptchaRandstr.value = ''
-  errors.turnstile = ''
-}
-
-async function acquireActionProof(): Promise<boolean> {
-  if (!actionCaptchaEnabled.value) return true
-
-  const proof = await turnstileRef.value?.verifyAction()
-  if (!proof) return false
-
-  turnstileToken.value = proof.token
-  tencentCaptchaRandstr.value = proof.randstr
-  return true
-}
-
-// ==================== Validation ====================
 
 function validateForm(): boolean {
   errors.email = ''
@@ -285,8 +216,6 @@ function validateForm(): boolean {
   return isValid
 }
 
-// ==================== Form Handlers ====================
-
 async function handleSubmit(): Promise<void> {
   errorMessage.value = ''
 
@@ -301,12 +230,10 @@ async function handleSubmit(): Promise<void> {
   isLoading.value = true
 
   try {
+    const captchaPayload = buildCaptchaProofPayload()
     await forgotPassword({
       email: formData.email,
-      turnstile_token:
-        turnstileEnabled.value || aliyunCaptchaEnabled.value ? turnstileToken.value : undefined,
-      tencent_captcha_ticket: tencentCaptchaEnabled.value ? turnstileToken.value : undefined,
-      tencent_captcha_randstr: tencentCaptchaEnabled.value ? tencentCaptchaRandstr.value : undefined
+      ...captchaPayload
     })
 
     isSubmitted.value = true
@@ -331,16 +258,3 @@ async function handleSubmit(): Promise<void> {
   }
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-</style>

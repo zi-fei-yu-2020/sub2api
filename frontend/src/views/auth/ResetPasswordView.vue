@@ -2,27 +2,27 @@
   <AuthLayout>
     <div class="space-y-6">
       <!-- Title -->
-      <div class="text-center">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-white">
           {{ t('auth.resetPasswordTitle') }}
         </h2>
-        <p class="mt-2 text-sm text-gray-500 dark:text-dark-400">
+        <p class="mt-2 text-sm text-slate-400">
           {{ t('auth.resetPasswordHint') }}
         </p>
       </div>
 
       <!-- Invalid Link State -->
       <div v-if="isInvalidLink" class="space-y-6">
-        <div class="rounded-xl border border-amber-200 bg-amber-50 p-6 dark:border-amber-800/50 dark:bg-amber-900/20">
-          <div class="flex flex-col items-center gap-4 text-center">
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-800/50">
-              <Icon name="exclamationCircle" size="lg" class="text-amber-600 dark:text-amber-400" />
+        <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-5 backdrop-blur-sm">
+          <div class="flex flex-col items-center gap-3 text-center">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/20 text-amber-400">
+              <Icon name="exclamationCircle" size="lg" />
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-amber-800 dark:text-amber-200">
+              <h3 class="text-base font-semibold text-amber-300">
                 {{ t('auth.invalidResetLink') }}
               </h3>
-              <p class="mt-2 text-sm text-amber-700 dark:text-amber-300">
+              <p class="mt-1.5 text-xs sm:text-sm text-amber-400/80 leading-relaxed">
                 {{ t('auth.invalidResetLinkHint') }}
               </p>
             </div>
@@ -32,7 +32,7 @@
         <div class="text-center">
           <router-link
             to="/forgot-password"
-            class="inline-flex items-center gap-2 font-medium text-primary-600 transition-colors hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300"
+            class="inline-flex items-center gap-2 text-sm font-medium text-primary-400 transition-colors hover:text-primary-300 hover:underline"
           >
             {{ t('auth.requestNewResetLink') }}
           </router-link>
@@ -41,16 +41,16 @@
 
       <!-- Success State -->
       <div v-else-if="isSuccess" class="space-y-6">
-        <div class="rounded-xl border border-green-200 bg-green-50 p-6 dark:border-green-800/50 dark:bg-green-900/20">
-          <div class="flex flex-col items-center gap-4 text-center">
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-800/50">
-              <Icon name="checkCircle" size="lg" class="text-green-600 dark:text-green-400" />
+        <div class="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-5 backdrop-blur-sm">
+          <div class="flex flex-col items-center gap-3 text-center">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+              <Icon name="checkCircle" size="lg" />
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-green-800 dark:text-green-200">
+              <h3 class="text-base font-semibold text-emerald-300">
                 {{ t('auth.passwordResetSuccess') }}
               </h3>
-              <p class="mt-2 text-sm text-green-700 dark:text-green-300">
+              <p class="mt-1.5 text-xs sm:text-sm text-emerald-400/80 leading-relaxed">
                 {{ t('auth.passwordResetSuccessHint') }}
               </p>
             </div>
@@ -60,24 +60,24 @@
         <div class="text-center">
           <router-link
             to="/login"
-            class="btn btn-primary inline-flex items-center gap-2"
+            class="relative flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 px-4 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all hover:scale-[1.01] hover:shadow-primary-500/40"
           >
             <Icon name="login" size="md" />
-            {{ t('auth.signIn') }}
+            <span>{{ t('auth.signIn') }}</span>
           </router-link>
         </div>
       </div>
 
       <!-- Form State -->
-      <form v-else @submit.prevent="handleSubmit" class="space-y-5">
+      <form v-else @submit.prevent="handleSubmit" class="space-y-4">
         <!-- Email (readonly) -->
-        <div>
-          <label for="email" class="input-label">
+        <div class="space-y-1.5">
+          <label for="email" class="text-xs font-semibold uppercase tracking-wider text-slate-300">
             {{ t('auth.emailLabel') }}
           </label>
           <div class="relative">
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-              <Icon name="mail" size="md" class="text-gray-400 dark:text-dark-500" />
+              <Icon name="mail" size="md" class="text-slate-500" />
             </div>
             <input
               id="email"
@@ -85,19 +85,19 @@
               type="email"
               readonly
               disabled
-              class="input pl-11 bg-gray-50 dark:bg-dark-700"
+              class="h-11 w-full rounded-xl border border-white/5 bg-slate-950/40 pl-11 pr-4 text-sm text-slate-400 cursor-not-allowed opacity-80 backdrop-blur-sm"
             />
           </div>
         </div>
 
         <!-- New Password Input -->
-        <div>
-          <label for="password" class="input-label">
+        <div class="space-y-1.5">
+          <label for="password" class="text-xs font-semibold uppercase tracking-wider text-slate-300">
             {{ t('auth.newPassword') }}
           </label>
           <div class="relative">
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-              <Icon name="lock" size="md" class="text-gray-400 dark:text-dark-500" />
+              <Icon name="lock" size="md" class="text-slate-400" />
             </div>
             <input
               id="password"
@@ -106,29 +106,30 @@
               required
               autocomplete="new-password"
               :disabled="isLoading"
-              class="input pl-11 pr-11"
-              :class="{ 'input-error': errors.password }"
+              class="h-11 w-full rounded-xl border border-white/10 bg-slate-950/60 pl-11 pr-11 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all focus:border-primary-500/50 focus:bg-slate-950/90 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+              :class="{ 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500/20': errors.password }"
               :placeholder="t('auth.newPasswordPlaceholder')"
             />
             <button
               type="button"
               @click="showPassword = !showPassword"
-              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-dark-300"
+              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 transition-colors hover:text-slate-200"
             >
               <Icon v-if="showPassword" name="eyeOff" size="md" />
               <Icon v-else name="eye" size="md" />
             </button>
           </div>
+          <p v-if="errors.password" class="text-xs text-rose-400">{{ errors.password }}</p>
         </div>
 
         <!-- Confirm Password Input -->
-        <div>
-          <label for="confirmPassword" class="input-label">
+        <div class="space-y-1.5">
+          <label for="confirmPassword" class="text-xs font-semibold uppercase tracking-wider text-slate-300">
             {{ t('auth.confirmPassword') }}
           </label>
           <div class="relative">
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-              <Icon name="lock" size="md" class="text-gray-400 dark:text-dark-500" />
+              <Icon name="lock" size="md" class="text-slate-400" />
             </div>
             <input
               id="confirmPassword"
@@ -137,60 +138,50 @@
               required
               autocomplete="new-password"
               :disabled="isLoading"
-              class="input pl-11 pr-11"
-              :class="{ 'input-error': errors.confirmPassword }"
+              class="h-11 w-full rounded-xl border border-white/10 bg-slate-950/60 pl-11 pr-11 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all focus:border-primary-500/50 focus:bg-slate-950/90 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+              :class="{ 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500/20': errors.confirmPassword }"
               :placeholder="t('auth.confirmPasswordPlaceholder')"
             />
             <button
               type="button"
               @click="showConfirmPassword = !showConfirmPassword"
-              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-dark-300"
+              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 transition-colors hover:text-slate-200"
             >
               <Icon v-if="showConfirmPassword" name="eyeOff" size="md" />
               <Icon v-else name="eye" size="md" />
             </button>
           </div>
+          <p v-if="errors.confirmPassword" class="text-xs text-rose-400">{{ errors.confirmPassword }}</p>
         </div>
 
         <!-- Submit Button -->
         <button
           type="submit"
           :disabled="isLoading"
-          class="btn btn-primary w-full"
+          class="relative mt-2 flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 px-4 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all hover:scale-[1.01] hover:shadow-primary-500/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
         >
           <svg
             v-if="isLoading"
-            class="-ml-1 mr-2 h-4 w-4 animate-spin text-white"
+            class="h-4 w-4 animate-spin text-white"
             fill="none"
             viewBox="0 0 24 24"
           >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <Icon v-else name="checkCircle" size="md" class="mr-2" />
-          {{ isLoading ? t('auth.resettingPassword') : t('auth.resetPassword') }}
+          <Icon v-else name="checkCircle" size="md" />
+          <span>{{ isLoading ? t('auth.resettingPassword') : t('auth.resetPassword') }}</span>
         </button>
       </form>
     </div>
 
     <!-- Footer -->
     <template #footer>
-      <p class="text-gray-500 dark:text-dark-400">
+      <p class="text-slate-400">
         {{ t('auth.rememberedPassword') }}
         <router-link
           to="/login"
-          class="font-medium text-primary-600 transition-colors hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300"
+          class="font-medium text-primary-400 transition-colors hover:text-primary-300 hover:underline"
         >
           {{ t('auth.signIn') }}
         </router-link>
@@ -209,13 +200,8 @@ import { useAppStore } from '@/stores'
 import { resetPassword } from '@/api/auth'
 
 const { t } = useI18n()
-
-// ==================== Router & Stores ====================
-
 const route = useRoute()
 const appStore = useAppStore()
-
-// ==================== State ====================
 
 const isLoading = ref<boolean>(false)
 const isSuccess = ref<boolean>(false)
@@ -223,7 +209,6 @@ const errorMessage = ref<string>('')
 const showPassword = ref<boolean>(false)
 const showConfirmPassword = ref<boolean>(false)
 
-// URL parameters
 const email = ref<string>('')
 const token = ref<string>('')
 
@@ -247,13 +232,9 @@ watch(validationToastMessage, (value, previousValue) => {
   }
 })
 
-// Check if the reset link is valid (has email and token)
 const isInvalidLink = computed(() => !email.value || !token.value)
 
-// ==================== Lifecycle ====================
-
 onMounted(() => {
-  // Get email and token from URL query parameters
   email.value = (route.query.email as string) || ''
   token.value = (route.query.token as string) || ''
 
@@ -262,15 +243,12 @@ onMounted(() => {
   }
 })
 
-// ==================== Validation ====================
-
 function validateForm(): boolean {
   errors.password = ''
   errors.confirmPassword = ''
 
   let isValid = true
 
-  // Password validation
   if (!formData.password) {
     errors.password = t('auth.passwordRequired')
     isValid = false
@@ -279,7 +257,6 @@ function validateForm(): boolean {
     isValid = false
   }
 
-  // Confirm password validation
   if (!formData.confirmPassword) {
     errors.confirmPassword = t('auth.confirmPasswordRequired')
     isValid = false
@@ -290,8 +267,6 @@ function validateForm(): boolean {
 
   return isValid
 }
-
-// ==================== Form Handlers ====================
 
 async function handleSubmit(): Promise<void> {
   errorMessage.value = ''
@@ -312,12 +287,9 @@ async function handleSubmit(): Promise<void> {
     isSuccess.value = true
     appStore.showSuccess(t('auth.passwordResetSuccess'))
   } catch (error: unknown) {
-    const err = error as { message?: string; response?: { data?: { detail?: string; code?: string } } }
+    const err = error as { message?: string; response?: { data?: { detail?: string } } }
 
-    // Check for invalid/expired token error
-    if (err.response?.data?.code === 'INVALID_RESET_TOKEN') {
-      errorMessage.value = t('auth.invalidOrExpiredToken')
-    } else if (err.response?.data?.detail) {
+    if (err.response?.data?.detail) {
       errorMessage.value = err.response.data.detail
     } else if (err.message) {
       errorMessage.value = err.message
@@ -331,16 +303,3 @@ async function handleSubmit(): Promise<void> {
   }
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-</style>
