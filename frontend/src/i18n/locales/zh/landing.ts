@@ -15,8 +15,11 @@ export default {
     getStarted: '立即开始',
     goToDashboard: '进入控制台',
     // 新增：面向用户的价值主张
+    heroTitlePrefix: '下一代统一高可用',
+    heroTitleGradient: 'AI 网关与订阅分发',
     heroSubtitle: '一个密钥，畅用多个 AI 模型',
-    heroDescription: '无需管理多个订阅账号，一站式接入 Claude、GPT、Gemini 等主流 AI 服务',
+    heroDescription: '聚合 Claude、OpenAI、DeepSeek、Gemini 与主流大模型平台，支持智能负载均衡、故障无感切换、动态阶梯计费与全渠道 Token 级管控。',
+    heroDefaultBadge: '高可用 AI 智能路由与统一计费网关',
     tags: {
       subscriptionToApi: '订阅转 API',
       stickySession: '会话保持',

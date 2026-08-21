@@ -166,20 +166,20 @@
         <div class="flex justify-center">
           <div class="inline-flex items-center gap-2 rounded-full border border-blue-200/80 bg-blue-50/80 px-4 py-1 text-xs font-medium text-blue-700 backdrop-blur-sm dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300">
             <span class="flex h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
-            <span>{{ siteSubtitle || '高可用 AI 智能路由与统一计费网关' }}</span>
+            <span>{{ siteSubtitle || t('home.heroDefaultBadge') }}</span>
           </div>
         </div>
 
         <!-- Hero Section -->
         <div class="mt-8 text-center">
           <h1 class="text-4xl font-extrabold tracking-tight sm:text-6xl sm:leading-[1.15] text-slate-900 dark:text-white">
-            下一代统一高可用
+            {{ t('home.heroTitlePrefix') }}
             <span class="bg-gradient-to-r from-blue-600 via-indigo-500 to-teal-500 bg-clip-text text-transparent dark:from-blue-400 dark:via-indigo-300 dark:to-teal-300">
-              AI 网关与订阅分发
+              {{ t('home.heroTitleGradient') }}
             </span>
           </h1>
           <p class="mx-auto mt-6 max-w-2xl text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            聚合 Claude、OpenAI、DeepSeek、Gemini 与主流大模型平台，支持智能负载均衡、故障无感切换、动态阶梯计费与全渠道 Token 级管控。
+            {{ t('home.heroDescription') }}
           </p>
 
           <!-- Primary CTAs -->

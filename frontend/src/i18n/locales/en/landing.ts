@@ -15,8 +15,11 @@ export default {
     getStarted: 'Get Started',
     goToDashboard: 'Go to Dashboard',
     // User-focused value proposition
+    heroTitlePrefix: 'Next-Gen High-Availability',
+    heroTitleGradient: 'AI Gateway & Distribution',
     heroSubtitle: 'One Key, All AI Models',
-    heroDescription: 'No need to manage multiple subscriptions. Access Claude, GPT, Gemini and more with a single API key',
+    heroDescription: 'Unified access to Claude, OpenAI, DeepSeek, Gemini, and mainstream LLMs with smart load balancing, seamless failover, dynamic tier pricing, and token-level governance.',
+    heroDefaultBadge: 'High-Availability AI Smart Routing & Unified Gateway',
     tags: {
       subscriptionToApi: 'Subscription to API',
       stickySession: 'Session Persistence',
