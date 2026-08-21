@@ -2,13 +2,13 @@
   <div class="min-h-screen bg-[#f4f6fa] text-slate-800 flex flex-col font-sans selection:bg-blue-500 selection:text-white">
     <!-- Top Navigation Bar -->
     <header class="flex h-16 w-full items-center justify-between px-6 sm:px-10 bg-transparent">
-      <div class="flex items-center gap-3">
+      <router-link to="/" class="flex items-center gap-3 cursor-pointer group transition-transform hover:scale-[1.02]">
         <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#3b82f6] shadow-sm overflow-hidden">
           <img v-if="siteLogo" :src="siteLogo" alt="Logo" class="h-6 w-6 object-contain" />
           <span v-else class="font-black text-white text-sm tracking-tight">S2</span>
         </div>
-        <span class="text-xl font-bold tracking-tight text-slate-900">{{ siteName }}</span>
-      </div>
+        <span class="text-xl font-bold tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">{{ siteName }}</span>
+      </router-link>
     </header>
 
     <!-- Main Content Area: Centered Auth Card -->

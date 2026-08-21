@@ -320,14 +320,9 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-200/80 bg-white py-8 text-center text-xs text-slate-500 dark:border-slate-800 dark:bg-[#090d16] dark:text-slate-400">
-      <div class="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="mx-auto max-w-6xl px-6 flex items-center justify-center">
         <div>
           &copy; {{ currentYear }} {{ siteName }}. All rights reserved.
-        </div>
-        <div class="flex items-center gap-6">
-          <router-link to="/model-plaza" class="hover:text-blue-600 dark:hover:text-blue-400 transition">{{ t('modelPlaza.title') }}</router-link>
-          <a v-if="docUrl" :href="docUrl" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 dark:hover:text-blue-400 transition">{{ t('home.viewDocs') }}</a>
-          <router-link to="/login" class="hover:text-blue-600 dark:hover:text-blue-400 transition">{{ t('home.login') }}</router-link>
         </div>
       </div>
     </footer>
