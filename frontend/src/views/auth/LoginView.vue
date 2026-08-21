@@ -30,7 +30,7 @@
               </p>
             </div>
 
-            <form @submit.prevent="handleLogin" class="mt-8 space-y-5">
+            <form @submit.prevent="handleLogin" class="mt-8 space-y-4">
             <!-- Email Field -->
             <div>
               <label for="email" class="block text-xs font-semibold text-slate-700 mb-1.5">
@@ -150,12 +150,13 @@
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
+              <Icon v-else name="login" size="md" class="mr-2" />
               <span>{{ isLoading ? t('auth.signingIn') : t('auth.signIn') }}</span>
             </button>
 
             <!-- OAuth / Passkey Section -->
-            <div v-if="showPasskeyLogin || showOAuthLogin" class="space-y-4 pt-2">
-              <div class="relative my-6">
+            <div v-if="showPasskeyLogin || showOAuthLogin" class="space-y-3 pt-3">
+              <div class="relative my-4">
                 <div class="absolute inset-0 flex items-center">
                   <div class="w-full border-t border-slate-100"></div>
                 </div>
@@ -218,7 +219,7 @@
           </form>
 
           <!-- Footer Text for Mobile / Below Card -->
-          <div v-if="!backendModeEnabled" class="mt-8 text-center text-xs text-slate-500">
+          <div v-if="!backendModeEnabled" class="mt-6 text-center text-xs text-slate-500">
             {{ t('auth.dontHaveAccount') }}
             <router-link
               to="/register"
