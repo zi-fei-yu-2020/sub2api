@@ -1,34 +1,41 @@
 <template>
-  <div class="space-y-5">
+  <div class="space-y-6">
     <!-- 页头(独立形态下展示标题;后台形态 AppHeader 已有页面标题) -->
-    <div v-if="!embedded">
-      <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">{{ t('modelPlaza.title') }}</h1>
-      <p class="mt-1.5 text-sm text-gray-500 dark:text-dark-400">{{ t('modelPlaza.description') }}</p>
+    <div v-if="!embedded" class="border-b border-slate-200/80 pb-6 dark:border-slate-800">
+      <div class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-950/50 dark:text-blue-400">
+        ⚡ 实时可用模型与公开透明定价
+      </div>
+      <h1 class="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+        {{ t('modelPlaza.title') }}
+      </h1>
+      <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
+        {{ t('modelPlaza.description') }}
+      </p>
     </div>
 
     <!-- 全局价格说明(管理员配置,Markdown) -->
     <div
       v-if="descriptionHtml"
-      class="plaza-description rounded-2xl border border-gray-100 bg-white px-5 py-4 text-sm shadow-card dark:border-dark-700/50 dark:bg-dark-800/50"
+      class="plaza-description rounded-2xl border border-slate-200/80 bg-white p-5 text-xs text-slate-700 shadow-xs dark:border-slate-800/80 dark:bg-slate-900/60 dark:text-slate-300 leading-relaxed"
       v-html="descriptionHtml"
     ></div>
 
     <!-- 未登录提示 -->
-    <p
+    <div
       v-if="!isAuthenticated"
-      class="flex items-center gap-1.5 text-xs text-gray-400 dark:text-dark-500"
+      class="flex items-center gap-2 rounded-xl bg-blue-50/70 border border-blue-100 p-3 text-xs text-blue-700 dark:border-blue-900/40 dark:bg-blue-950/30 dark:text-blue-300"
     >
-      <Icon name="infoCircle" size="xs" class="h-3.5 w-3.5" />
-      {{ t('modelPlaza.anonymousHint') }}
-    </p>
+      <Icon name="infoCircle" size="sm" class="shrink-0" />
+      <span>{{ t('modelPlaza.anonymousHint') }}</span>
+    </div>
 
     <!-- 加载/错误/空 -->
     <div v-if="loading" class="flex min-h-[240px] items-center justify-center">
-      <div class="h-8 w-8 animate-spin rounded-full border-2 border-primary-600/25 border-t-primary-600 dark:border-primary-400/25 dark:border-t-primary-400"></div>
+      <div class="h-8 w-8 animate-spin rounded-full border-2 border-blue-600/25 border-t-blue-600 dark:border-blue-400/25 dark:border-t-blue-400"></div>
     </div>
     <div
       v-else-if="error"
-      class="rounded-2xl border border-red-200 bg-red-50 px-5 py-8 text-center text-sm text-red-600 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300"
+      class="rounded-2xl border border-rose-200 bg-rose-50 px-5 py-8 text-center text-xs font-semibold text-rose-600 dark:border-rose-900/40 dark:bg-rose-950/20 dark:text-rose-400"
     >
       {{ t('modelPlaza.loadFailed') }}
     </div>
@@ -49,12 +56,12 @@
       />
 
       <!-- 分组分节的模型清单(默认按生效倍率升序) -->
-      <div v-if="filteredGroups.length > 0" class="space-y-5">
+      <div v-if="filteredGroups.length > 0" class="space-y-6">
         <PlazaGroupSection v-for="g in filteredGroups" :key="g.id" :group="g" />
       </div>
       <div
         v-else
-        class="rounded-2xl border border-dashed border-gray-300 px-5 py-12 text-center text-sm text-gray-500 dark:border-dark-600 dark:text-dark-400"
+        class="rounded-2xl border border-dashed border-slate-300 px-5 py-12 text-center text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400"
       >
         {{ searchActive ? t('modelPlaza.noSearchResult') : t('modelPlaza.empty') }}
       </div>
@@ -98,7 +105,6 @@ const descriptionHtml = computed(() => {
   return DOMPurify.sanitize(marked.parse(md) as string)
 })
 
-/** 生效倍率 = 用户专属倍率 ?? 分组默认倍率。 */
 function effectiveRate(g: ModelPlazaGroup): number {
   return g.user_rate_multiplier ?? g.rate_multiplier
 }
@@ -116,80 +122,37 @@ const groupOptions = computed(() =>
   }))
 )
 
-/** 全量生效倍率;当前组合下不可用的项由 FilterBar 置灰而非隐藏。 */
 const rates = computed(() =>
-  [...new Set((props.response?.groups ?? []).map(effectiveRate))].sort((a, b) => a - b)
+  [...new Set((props.response?.groups ?? []).map((g) => effectiveRate(g)))].sort((a, b) => a - b)
 )
 
-/** 数据刷新后选中的倍率可能不复存在,重置为全部。 */
-watch(rates, (list) => {
-  if (selectedRate.value !== 'all' && !list.includes(selectedRate.value)) {
-    selectedRate.value = 'all'
-  }
-})
-
 const filteredGroups = computed(() => {
-  let groups = props.response?.groups ?? []
-  if (selectedPlatform.value !== 'all') {
-    groups = groups.filter((g) => g.platform === selectedPlatform.value)
-  }
-  if (selectedGroupId.value !== 'all') {
-    groups = groups.filter((g) => g.id === selectedGroupId.value)
-  }
-  if (selectedRate.value !== 'all') {
-    groups = groups.filter((g) => effectiveRate(g) === selectedRate.value)
-  }
-  // 模型名搜索:分组内只留命中的模型,整组无命中则隐藏该分组。
-  const q = searchQuery.value.trim().toLowerCase()
-  if (q) {
-    groups = groups
-      .map((g) => ({ ...g, models: g.models.filter((m) => m.name.toLowerCase().includes(q)) }))
-      .filter((g) => g.models.length > 0)
-  }
-  // 专属倍率会改变生效值,不能只依赖后端按默认倍率的排序。
-  return [...groups].sort(
-    (a, b) => effectiveRate(a) - effectiveRate(b) || a.name.localeCompare(b.name)
-  )
+  const all = props.response?.groups ?? []
+  const query = searchQuery.value.trim().toLowerCase()
+
+  return all
+    .filter((g) => {
+      if (selectedPlatform.value !== 'all' && g.platform !== selectedPlatform.value) return false
+      if (selectedGroupId.value !== 'all' && g.id !== selectedGroupId.value) return false
+      if (selectedRate.value !== 'all' && effectiveRate(g) !== selectedRate.value) return false
+      return true
+    })
+    .map((g) => {
+      if (!query) return g
+      const matched = g.models.filter((m) => m.name.toLowerCase().includes(query))
+      return { ...g, models: matched }
+    })
+    .filter((g) => !query || g.models.length > 0)
+    .sort((a, b) => effectiveRate(a) - effectiveRate(b))
 })
+
+watch(
+  () => props.response,
+  () => {
+    selectedPlatform.value = 'all'
+    selectedGroupId.value = 'all'
+    selectedRate.value = 'all'
+    searchQuery.value = ''
+  }
+)
 </script>
-
-<style scoped>
-.plaza-description {
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-
-.plaza-description :deep(h1),
-.plaza-description :deep(h2),
-.plaza-description :deep(h3) {
-  @apply mb-2 mt-3 font-semibold text-gray-900 first:mt-0 dark:text-white;
-}
-
-.plaza-description :deep(p) {
-  @apply mb-2 text-gray-700 last:mb-0 dark:text-dark-200;
-}
-
-.plaza-description :deep(a) {
-  @apply text-primary-600 underline underline-offset-4 hover:text-primary-700 dark:text-primary-300;
-}
-
-.plaza-description :deep(ul) {
-  @apply mb-2 list-disc pl-5;
-}
-
-.plaza-description :deep(ol) {
-  @apply mb-2 list-decimal pl-5;
-}
-
-.plaza-description :deep(li) {
-  @apply mb-0.5 text-gray-700 dark:text-dark-200;
-}
-
-.plaza-description :deep(code) {
-  @apply rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs dark:bg-dark-800;
-}
-
-.plaza-description :deep(blockquote) {
-  @apply my-2 border-l-4 border-gray-300 pl-3 text-gray-600 dark:border-dark-600 dark:text-dark-300;
-}
-</style>
