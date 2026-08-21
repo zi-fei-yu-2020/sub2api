@@ -63,11 +63,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Left Panel Footer Copyright -->
-    <div class="relative z-10 text-xs text-slate-400">
-      &copy; {{ currentYear }} {{ siteName }}. All rights reserved.
-    </div>
   </div>
 </template>
 
@@ -83,5 +78,4 @@ const appStore = useAppStore()
 const siteName = computed(() => appStore.siteName || 'Sub2API')
 const siteLogo = computed(() => sanitizeUrl(appStore.siteLogo || '', { allowRelative: true, allowDataUrl: true }))
 const siteSubtitle = computed(() => appStore.cachedPublicSettings?.site_subtitle || '下一代 AI 网关与订阅管理平台')
-const currentYear = computed(() => new Date().getFullYear())
 </script>
