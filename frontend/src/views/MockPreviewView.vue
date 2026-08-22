@@ -38,6 +38,18 @@
           >
             ⚡ 模型广场 (ModelPlaza)
           </button>
+          <button
+            type="button"
+            @click="activeTab = 'setup'"
+            :class="[
+              'rounded-lg px-3.5 py-1.5 text-xs font-semibold transition',
+              activeTab === 'setup'
+                ? 'bg-white text-blue-600 shadow-xs dark:bg-slate-900 dark:text-blue-400'
+                : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+            ]"
+          >
+            🚀 安装向导 (SetupWizard)
+          </button>
         </div>
 
         <div class="flex items-center gap-2">
@@ -498,18 +510,482 @@
       </footer>
     </div>
 
+    <!-- ==================== TAB 3: 安装向导设计稿 (Linear / Vercel 极简 SaaS 风格) ==================== -->
+    <div v-if="activeTab === 'setup'" class="min-h-[calc(100vh-61px)] flex flex-col justify-between py-10 px-4 sm:px-6">
+      <!-- Glows & Grid Pattern Background -->
+      <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute -top-40 left-1/2 -translate-x-1/2 h-[450px] w-[900px] rounded-full bg-gradient-to-tr from-blue-500/15 via-indigo-500/10 to-teal-400/10 blur-[100px] dark:from-blue-600/20 dark:via-purple-600/15"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 dark:bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)]"></div>
+      </div>
+
+      <div class="mx-auto w-full max-w-2xl">
+        <!-- Logo & Title -->
+        <div class="mb-8 text-center">
+          <div class="mb-3 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-bold text-xl shadow-lg shadow-blue-500/20">
+            S2
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Sub2API 安装初始化向导</h1>
+          <p class="mt-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">只需 4 步，轻松完成高可用 AI 网关服务与存储引擎配置</p>
+        </div>
+
+        <!-- Modern Step Indicator -->
+        <div class="mb-8 rounded-2xl border border-slate-200/80 bg-white/70 p-3 sm:p-4 shadow-sm backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/60">
+          <div class="flex items-center justify-between">
+            <template v-for="(step, index) in mockSetupSteps" :key="step.id">
+              <!-- Step Item -->
+              <div
+                class="flex flex-1 items-center cursor-pointer group"
+                @click="mockSetupStep = index"
+              >
+                <div class="flex items-center gap-2.5">
+                  <div
+                    :class="[
+                      'flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-xs font-bold transition-all shadow-xs',
+                      mockSetupStep > index
+                        ? 'bg-blue-600 text-white shadow-blue-500/20'
+                        : mockSetupStep === index
+                          ? 'bg-blue-600 text-white ring-4 ring-blue-500/20 shadow-blue-500/30'
+                          : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 group-hover:bg-slate-200 dark:group-hover:bg-slate-700'
+                    ]"
+                  >
+                    <svg v-if="mockSetupStep > index" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    <span v-else>{{ index + 1 }}</span>
+                  </div>
+                  <div class="hidden sm:block text-left">
+                    <p
+                      :class="[
+                        'text-xs font-semibold leading-tight transition-colors',
+                        mockSetupStep >= index
+                          ? 'text-slate-900 dark:text-white'
+                          : 'text-slate-400 dark:text-slate-500'
+                      ]"
+                    >
+                      {{ step.title }}
+                    </p>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500">Step {{ index + 1 }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Connecting Line -->
+              <div
+                v-if="index < mockSetupSteps.length - 1"
+                :class="[
+                  'mx-2 h-0.5 w-6 sm:w-10 rounded-full transition-colors',
+                  mockSetupStep > index ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-800'
+                ]"
+              ></div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Main Card Container -->
+        <div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-6 sm:p-8 shadow-xl backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-900/80">
+          <!-- Step 1: Database -->
+          <div v-if="mockSetupStep === 0" class="space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>🗄️</span> 数据库配置 (PostgreSQL)
+              </h2>
+              <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                Sub2API 使用 PostgreSQL 存储核心账号、渠道、路由规则及 Token 消耗流水。
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">主机地址</label>
+                <input
+                  v-model="mockDb.host"
+                  type="text"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="localhost"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">端口</label>
+                <input
+                  v-model="mockDb.port"
+                  type="number"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="5432"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">数据库用户名</label>
+                <input
+                  v-model="mockDb.user"
+                  type="text"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="postgres"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">数据库密码</label>
+                <input
+                  v-model="mockDb.password"
+                  type="password"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">数据库名称</label>
+                <input
+                  v-model="mockDb.dbname"
+                  type="text"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="sub2api"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">SSL 连接模式</label>
+                <select
+                  v-model="mockDb.sslmode"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950 cursor-pointer"
+                >
+                  <option value="disable">禁用 (disable)</option>
+                  <option value="require">要求加密 (require)</option>
+                  <option value="verify-ca">验证 CA (verify-ca)</option>
+                  <option value="verify-full">完全验证 (verify-full)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Test Connection Button -->
+            <button
+              type="button"
+              @click="mockTestDb"
+              class="w-full inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-xs sm:text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700 active:scale-[0.99] cursor-pointer"
+            >
+              <svg v-if="mockDbTesting" class="mr-2 h-4 w-4 animate-spin text-blue-600" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <svg v-else-if="mockDbConnected" class="mr-2 h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span>{{ mockDbTesting ? '正在测试数据库连通性...' : mockDbConnected ? '数据库连接成功' : '测试数据库连接' }}</span>
+            </button>
+          </div>
+
+          <!-- Step 2: Redis -->
+          <div v-if="mockSetupStep === 1" class="space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>⚡</span> Redis 缓存与分布式锁配置
+              </h2>
+              <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                用于高效网关限流 (RPM/TPM)、分布式调度仲裁、用户 Session 及实时指标统计。
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Redis 主机地址</label>
+                <input
+                  v-model="mockRedis.host"
+                  type="text"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="localhost"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">端口</label>
+                <input
+                  v-model="mockRedis.port"
+                  type="number"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="6379"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">用户名 (可选)</label>
+                <input
+                  v-model="mockRedis.username"
+                  type="text"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="默认留空"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">密码 (可选)</label>
+                <input
+                  v-model="mockRedis.password"
+                  type="password"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="••••••••"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">DB 编号</label>
+                <input
+                  v-model="mockRedis.db"
+                  type="number"
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                  placeholder="0"
+                />
+              </div>
+            </div>
+
+            <!-- TLS Toggle Card -->
+            <div class="flex items-center justify-between rounded-xl border border-slate-200/80 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-950/40">
+              <div>
+                <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">启用 TLS 安全加密连接</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">连接 Upstash / 云厂商托管 Redis 时使用 TLS (公共 CA 证书)</p>
+              </div>
+              <button
+                type="button"
+                @click="mockRedis.enable_tls = !mockRedis.enable_tls"
+                :class="[
+                  'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none',
+                  mockRedis.enable_tls ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-700'
+                ]"
+              >
+                <span
+                  :class="[
+                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out',
+                    mockRedis.enable_tls ? 'translate-x-5' : 'translate-x-0'
+                  ]"
+                />
+              </button>
+            </div>
+
+            <!-- Test Redis Connection Button -->
+            <button
+              type="button"
+              @click="mockTestRedis"
+              class="w-full inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-xs sm:text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700 active:scale-[0.99] cursor-pointer"
+            >
+              <svg v-if="mockRedisTesting" class="mr-2 h-4 w-4 animate-spin text-blue-600" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <svg v-else-if="mockRedisConnected" class="mr-2 h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span>{{ mockRedisTesting ? '正在测试 Redis 连通性...' : mockRedisConnected ? 'Redis 连接成功' : '测试 Redis 连接' }}</span>
+            </button>
+          </div>
+
+          <!-- Step 3: Admin -->
+          <div v-if="mockSetupStep === 2" class="space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>👑</span> 超级管理员账户初始化
+              </h2>
+              <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                创建首个初始超级管理员账户，享有全站最高控制权限与后台配置能力。
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">管理员邮箱</label>
+              <input
+                v-model="mockAdmin.email"
+                type="email"
+                class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                placeholder="admin@example.com"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">管理员登录密码</label>
+              <input
+                v-model="mockAdmin.password"
+                type="password"
+                class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                placeholder="至少 8 个字符（包含字母与数字）"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">确认登录密码</label>
+              <input
+                v-model="mockAdmin.confirmPassword"
+                type="password"
+                class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-white dark:focus:border-blue-400 dark:focus:bg-slate-950"
+                placeholder="请再次输入登录密码"
+              />
+              <p v-if="mockAdmin.confirmPassword && mockAdmin.password !== mockAdmin.confirmPassword" class="mt-1 text-xs text-rose-500 font-medium">
+                两次输入的密码不一致
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4: Ready to Install -->
+          <div v-if="mockSetupStep === 3" class="space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>📋</span> 配置清单核对与安装确认
+              </h2>
+              <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                请确认以下基础设施与管理员配置无误，点击下方按钮将自动执行数据库迁移并启动服务。
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <!-- Summary: DB -->
+              <div class="rounded-xl border border-slate-200/80 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-950/40">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">数据库存储</span>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
+                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>已就绪
+                  </span>
+                </div>
+                <p class="mt-2 font-mono text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                  {{ mockDb.user }}@{{ mockDb.host }}:{{ mockDb.port }}/{{ mockDb.dbname }}
+                </p>
+              </div>
+
+              <!-- Summary: Redis -->
+              <div class="rounded-xl border border-slate-200/80 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-950/40">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Redis 缓存</span>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
+                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>已就绪
+                  </span>
+                </div>
+                <p class="mt-2 font-mono text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                  {{ mockRedis.host }}:{{ mockRedis.port }} (DB {{ mockRedis.db }}) {{ mockRedis.enable_tls ? '• TLS 加密' : '' }}
+                </p>
+              </div>
+
+              <!-- Summary: Admin -->
+              <div class="rounded-xl border border-slate-200/80 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-950/40">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">初始管理员邮箱</span>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-700 dark:bg-blue-950/50 dark:text-blue-400">
+                    超级管理员
+                  </span>
+                </div>
+                <p class="mt-2 font-mono text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                  {{ mockAdmin.email || 'admin@example.com' }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="mt-8 flex items-center justify-between border-t border-slate-100 pt-6 dark:border-slate-800">
+            <button
+              v-if="mockSetupStep > 0"
+              type="button"
+              @click="mockSetupStep--"
+              class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 shadow-2xs hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 cursor-pointer"
+            >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+              上一步
+            </button>
+            <div v-else></div>
+
+            <button
+              v-if="mockSetupStep < 3"
+              type="button"
+              @click="mockSetupStep++"
+              class="inline-flex items-center gap-1 rounded-xl bg-blue-600 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md shadow-blue-600/20 hover:bg-blue-500 active:scale-[0.98] cursor-pointer"
+            >
+              下一步
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
+            </button>
+
+            <button
+              v-else
+              type="button"
+              class="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-blue-600/25 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98] cursor-pointer"
+            >
+              🚀 立即执行安装与初始化
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clean Footer -->
+      <footer class="mt-8 text-center text-xs text-slate-400 dark:text-slate-600">
+        &copy; 2026 Sub2API Open Source System Setup
+      </footer>
+    </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
-const activeTab = ref<'home' | 'plaza'>('home')
+const activeTab = ref<'home' | 'plaza' | 'setup'>('setup')
 const isDark = ref(false)
 
 const selectedPlat = ref('全部平台')
 const selectedGroup = ref('全部分组')
 const modelSearch = ref('')
+
+// Mock Setup Wizard State
+const mockSetupStep = ref(0)
+const mockSetupSteps = [
+  { id: 'database', title: '数据库配置' },
+  { id: 'redis', title: 'Redis 配置' },
+  { id: 'admin', title: '管理员账户' },
+  { id: 'complete', title: '完成安装' }
+]
+
+const mockDb = reactive({
+  host: 'localhost',
+  port: 5432,
+  user: 'postgres',
+  password: '',
+  dbname: 'sub2api',
+  sslmode: 'disable'
+})
+const mockDbTesting = ref(false)
+const mockDbConnected = ref(true)
+
+function mockTestDb() {
+  mockDbTesting.value = true
+  setTimeout(() => {
+    mockDbTesting.value = false
+    mockDbConnected.value = true
+  }, 600)
+}
+
+const mockRedis = reactive({
+  host: 'localhost',
+  port: 6379,
+  username: '',
+  password: '',
+  db: 0,
+  enable_tls: false
+})
+const mockRedisTesting = ref(false)
+const mockRedisConnected = ref(true)
+
+function mockTestRedis() {
+  mockRedisTesting.value = true
+  setTimeout(() => {
+    mockRedisTesting.value = false
+    mockRedisConnected.value = true
+  }, 600)
+}
+
+const mockAdmin = reactive({
+  email: 'admin@example.com',
+  password: 'Password123!',
+  confirmPassword: 'Password123!'
+})
 
 function toggleDark() {
   isDark.value = !isDark.value
